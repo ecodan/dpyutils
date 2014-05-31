@@ -6,11 +6,12 @@ import shutil
 def clean_dir(dir, target_list):
     for dirname, dirnames, filenames in os.walk(dir):
         print('searching dir ' + dirname)
-        for subdirname in dirnames:
-            fqdir = os.path.join(dirname, subdirname)
-            if subdirname in target_list:
-                print('deleting ' + fqdir)
-                shutil.rmtree(fqdir)
+        for filename in filenames:
+            fqf = os.path.join(dirname, filename)
+            for suffix in target_list:
+                if filename.endswith(suffix):
+                    print('deleting ' + fqf)
+                    os.remove(fqf)
 
 
 def main(in_dir, targets):
@@ -23,5 +24,5 @@ def main(in_dir, targets):
 if __name__=='__main__':
 
     args = { 'in_dir':  '/BOGUS',
-             'targets': 'target|.svn|.mortar-local'}
+             'targets': '.jar|.war|.ear'}
     model = main(**args)
